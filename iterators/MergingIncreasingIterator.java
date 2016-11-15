@@ -12,25 +12,29 @@ import java.util.Iterator;
  *  k — суммарное количество элементов
  */
 public class MergingIncreasingIterator implements Iterator<Integer> {
-
     private IncreasingIterator first;
     private IncreasingIterator second;
 
     public MergingIncreasingIterator(IncreasingIterator first, IncreasingIterator second) {
         this.first = first;
         this.second = second;
-        /* TODO: implement it */
     }
 
     @Override
     public boolean hasNext() {
-        /* TODO: implement it */
-        return false;
+        return first.hasNext() || second.hasNext();
     }
 
     @Override
     public Integer next() {
-        /* TODO: implement it */
-        return null;
+        if (first.hasNext() && second.hasNext()) {
+            return (first.curr > second.curr)? first.next() : second.next();
+        }
+
+        if (first.hasNext()) {
+            return first.next();
+        } else {
+            return second.next();
+        }
     }
 }
