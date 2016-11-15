@@ -3,44 +3,92 @@ package seminar1.collections;
 import java.util.Iterator;
 
 public class LinkedDeque<Item> implements IDeque<Item> {
+    private Node<Item> head;
+    private Node<Item> tail;
+    private int size = 0;
 
     @Override
     public void pushFront(Item item) {
-        /* TODO: implement it */
+        size++;
+
+        if (head == null) {
+            tail = head = new Node<>(item, null, null);
+            return;
+        }
+
+        Node<Item> element = new Node<>(item, head, null);
+        head.prev = element;
+        head = element;
     }
 
     @Override
     public void pushBack(Item item) {
-        /* TODO: implement it */
+        size++;
+
+        if (tail == null) {
+            tail = head = new Node<>(item, null, null);
+            return;
+        }
+
+        Node<Item> element = new Node<>(item, null, tail);
+        tail.next = element;
+        tail = element;
     }
 
     @Override
     public Item popFront() {
-        /* TODO: implement it */
-        return null;
+        size--;
+        Node<Item> res = head;
+        head = head.next;
+        return res.item;
     }
 
     @Override
     public Item popBack() {
-        /* TODO: implement it */
-        return null;
+        size--;
+        Node<Item> res = tail;
+        tail = tail.prev;
+        return res.item;
     }
 
     @Override
     public boolean isEmpty() {
-        /* TODO: implement it */
-        return false;
+        return size() == 0;
     }
 
     @Override
     public int size() {
-        /* TODO: implement it */
-        return 0;
+        return size;
+    }
+
+    private static class Node<Item> {
+        Item item;
+        Node<Item> next;
+        Node<Item> prev;
+
+        public Node(Item item, Node<Item> next, Node<Item> prev) {
+            this.item = item;
+            this.next = next;
+            this.prev = prev;
+        }
     }
 
     @Override
     public Iterator<Item> iterator() {
-        /* TODO: implement it */
-        return null;
+        return new Iterator<Item>() {
+            private Node<Item> h = head;
+
+            @Override
+            public boolean hasNext() {
+                return h != null;
+            }
+
+            @Override
+            public Item next() {
+                Node<Item> temp = h;
+                h = h.next;
+                return temp.item;
+            }
+        };
     }
 }
